@@ -27,8 +27,7 @@ Notar que si la densidad de granitos, [Suma_i h[i]/N] es muy baja, la actividad 
 #define DENSITY 0.8924
 
 // number of temporal steps
-//#define NSTEPS 1000000000
-#define NSTEPS 10000
+#define NSTEPS 1000000000
 
 using namespace std;
 
@@ -76,7 +75,7 @@ Una forma es agarrar cada granito, y tirarlo a su izquierda o derecha aleatoriam
 void desestabilizacion_inicial(Manna_Array &h)
 {
 	vector<int> index_a_incrementar;
-	for(int i = 0; i < N; ++i){
+	for (int i = 0; i < N; ++i){
 		if (h[i] == 1) {
 			h[i] = 0;
 			int j=i+2*(rand()%2)-1; // izquierda o derecha
@@ -88,8 +87,7 @@ void desestabilizacion_inicial(Manna_Array &h)
 			index_a_incrementar.push_back(j);
 		}
 	}
-	for(int i = 0; i < index_a_incrementar.size(); ++i)
-	{
+	for(unsigned int i = 0; i < index_a_incrementar.size(); ++i) {
 		h[index_a_incrementar[i]] += 1;
 	}
 }
