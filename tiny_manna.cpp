@@ -33,7 +33,7 @@ lo mas aproximada (exacta cuando N->infinito) al numero real DENSITY, podemos ha
 static void inicializacion(Manna_Array& h)
 {
     for (int i = 0; i < N; ++i) {
-        h[i] = (int)((i + 1) * DENSITY) - (int)(i * DENSITY);
+        h[i] = static_cast<int>((i + 1) * DENSITY) - static_cast<int>(i * DENSITY);
     }
 }
 
