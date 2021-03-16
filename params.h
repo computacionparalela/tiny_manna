@@ -20,3 +20,24 @@
 #ifndef SEED
 #define SEED time(nullptr)
 #endif
+
+// graphics options
+#ifdef GRAPHICS
+
+#ifndef WINDOW_WIDTH
+#define WINDOW_WIDTH 256
+#endif
+
+#ifndef WINDOW_HEIGHT
+#define WINDOW_HEIGHT 256
+#endif
+
+#ifndef BAND_HEIGHT
+#define BAND_HEIGHT 8
+#endif
+
+#ifndef TARGET_FPS
+#define TARGET_FPS 30
+#endif
+
+#endif /* GRAPHICS */

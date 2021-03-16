@@ -22,6 +22,11 @@ Notar que si la densidad de granitos, [Suma_i h[i]/N] es muy baja, la actividad 
 #include <iostream>
 #include <vector>
 
+#ifdef GRAPHICS
+#include "gfx.h"
+#include "gl2d.h"
+#endif
+
 typedef std::array<int, N> Manna_Array; // fixed-sized array
 
 
@@ -139,6 +144,11 @@ int main()
     imprimir_array(h);
 #endif
 
+#ifdef GRAPHICS
+	gl2d_t gl2d = gl2d_init("tiny_manna", WINDOW_WIDTH, WINDOW_HEIGHT);
+	draw_manna(gl2d, N, WINDOW_WIDTH, WINDOW_HEIGHT, BAND_HEIGHT, h.data());
+#endif
+
     std::cout << "evolucion de la pila de arena...";
     std::cout.flush();
 
@@ -151,10 +161,17 @@ int main()
 #ifdef DEBUG
         imprimir_array(h);
 #endif
+#ifdef GRAPHICS
+		draw_manna(gl2d, N, WINDOW_WIDTH, WINDOW_HEIGHT, BAND_HEIGHT, h.data());
+#endif
         ++t;
     } while (activity > 0 && t < NSTEPS); // si la actividad decae a cero, esto no evoluciona mas...
 
     std::cout << "LISTO: " << ((activity > 0) ? ("se acabo el tiempo\n") : ("la actividad decayo a cero\n")) << std::endl;
+
+#ifdef GRAPHICS
+	gl2d_destroy(gl2d);
+#endif
 
     return 0;
 }
