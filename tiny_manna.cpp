@@ -22,9 +22,7 @@ Notar que si la densidad de granitos, [Suma_i h[i]/N] es muy baja, la actividad 
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
-typedef array<int,N> Manna_Array; // fixed-sized array
+typedef std::array<int,N> Manna_Array; // fixed-sized array
 
 
 // CONDICION INICIAL ---------------------------------------------------------------
@@ -47,15 +45,15 @@ static void imprimir_array(const Manna_Array &h)
 
 	// esto dibuja los granitos en cada sitio y los cuenta
 	for(int i = 0; i < N; ++i) {
-		cout << h[i] << " ";
+		std::cout << h[i] << " ";
 		nrogranitos += h[i];
 		nrogranitos_activos += (h[i]>1);
 	}
-	cout << "\n";
-	cout << "Hay " << nrogranitos << " granitos en total\n";
-	cout << "De ellos " << nrogranitos_activos << " son activos\n";
-	cout << "La densidad obtenida es " << nrogranitos*1.0/N;
-	cout << ", mientras que la deseada era " << DENSITY << "\n\n";
+	std::cout << "\n";
+	std::cout << "Hay " << nrogranitos << " granitos en total\n";
+	std::cout << "De ellos " << nrogranitos_activos << " son activos\n";
+	std::cout << "La densidad obtenida es " << nrogranitos*1.0/N;
+	std::cout << ", mientras que la deseada era " << DENSITY << "\n\n";
 }
 #endif
 
@@ -68,7 +66,7 @@ Una forma es agarrar cada granito, y tirarlo a su izquierda o derecha aleatoriam
 */
 static void desestabilizacion_inicial(Manna_Array &h)
 {
-	vector<int> index_a_incrementar;
+	std::vector<int> index_a_incrementar;
 	for (int i = 0; i < N; ++i){
 		if (h[i] == 1) {
 			h[i] = 0;
@@ -90,7 +88,7 @@ static void desestabilizacion_inicial(Manna_Array &h)
 static unsigned int descargar(Manna_Array &h, Manna_Array &dh)
 {
 	dh.fill(0);
-	
+
 	for (int i = 0; i < N; ++i) {
 		// si es activo lo descargo aleatoriamente
 		if (h[i] > 1) {
@@ -121,34 +119,35 @@ int main(){
 	// nro granitos en cada sitio, y su update
 	Manna_Array h, dh;
 
-	cout << "estado inicial estable de la pila de arena...";
+	std::cout << "estado inicial estable de la pila de arena...";
 	inicializacion(h);
-	cout << "LISTO\n";
+	std::cout << "LISTO" << std::endl;
 	#ifdef DEBUG
 	imprimir_array(h);
 	#endif
 
-	cout << "estado inicial desestabilizado de la pila de arena...";
+	std::cout << "estado inicial desestabilizado de la pila de arena...";
 	desestabilizacion_inicial(h);
-	cout << "LISTO\n";
+	std::cout << "LISTO" << std::endl;
 	#ifdef DEBUG
 	imprimir_array(h);
 	#endif
 
-	cout << "evolucion de la pila de arena..."; cout.flush();
+	std::cout << "evolucion de la pila de arena..."; std::cout.flush();
 
-	ofstream activity_out("activity.dat");
+	std::ofstream activity_out("activity.dat");
 	int activity;
 	int t = 0;
 	do {
-		activity_out << (activity=descargar(h,dh)) << endl;
+		activity = descargar(h, dh);
+		activity_out << activity << "\n";
 		#ifdef DEBUG
 		imprimir_array(h);
 		#endif
 		++t;
 	} while(activity > 0 && t < NSTEPS); // si la actividad decae a cero, esto no evoluciona mas...
 
-	cout << "LISTO: " << ((activity>0)?("se acabo el tiempo\n\n"):("la actividad decayo a cero\n\n")); cout.flush();
+	std::cout << "LISTO: " << ((activity>0)?("se acabo el tiempo\n"):("la actividad decayo a cero\n")) << std::endl;
 
 	return 0;
 }
