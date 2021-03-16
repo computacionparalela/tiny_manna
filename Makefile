@@ -1,26 +1,21 @@
-# Binary file
-BIN = tiny_manna
+# Compiler
+CXX = g++
 
 # Flags
-CFLAGS = -Wall -Wextra -Werror -std=c++0x
+CXXFLAGS = -Wall -Wextra -std=c++14
+CPPFLAGS =
 LDFLAGS =
 
-# Compilers
-CPP = g++
-LINKER = g++
+# Binary file
+TARGET = tiny_manna
 
 # Files
-MAKEFILE = Makefile
-CPP_SOURCES = $(BIN).cpp
-HEADERS =
-CPP_OBJS = $(patsubst %.cpp, %.o, $(CPP_SOURCES))
+SOURCES = tiny_manna.cpp
+OBJS = $(patsubst %.cpp, %.o, $(SOURCES))
 
 # Rules
-$(BIN): $(CPP_OBJS) $(HEADERS) $(MAKEFILE)
-	$(LINKER) -o $(BIN) $(CPP_OBJS) $(LDFLAGS) $(INCLUDES) $(LIBS)
-
-$(CPP_OBJS): $(CPP_SOURCES) $(HEADERS) $(MAKEFILE)
-	$(CPP) -c $(CPP_SOURCES) $(CFLAGS) $(INCLUDES) $(PARAMETERS)
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^ $(LDFLAGS)
 
 clean:
-	rm -f $(BIN) *.o *.dat
+	rm -f $(TARGET) *.o
