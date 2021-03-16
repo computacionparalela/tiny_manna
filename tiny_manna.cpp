@@ -14,20 +14,13 @@ Notar que si la densidad de granitos, [Suma_i h[i]/N] es muy baja, la actividad 
 
 */
 
-#include <iostream>
-#include <fstream>
+#include "params.h"
+
+#include <cstdlib>
 #include <array>
+#include <fstream>
+#include <iostream>
 #include <vector>
-#include <stdlib.h>
-
-// number of sites
-#define N 32768
-
-// number of sites
-#define DENSITY 0.8924
-
-// number of temporal steps
-#define NSTEPS 1000000000
 
 using namespace std;
 
@@ -122,7 +115,7 @@ unsigned int descargar(Manna_Array &h, Manna_Array &dh)
 // Lo compilo asi: g++ tiny_manna.cpp -std=c++0x
 int main(){
 
-	srand(time(0));
+	srand(SEED);
 
 	// nro granitos en cada sitio, y su update
 	Manna_Array h, dh;
