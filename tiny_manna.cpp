@@ -24,8 +24,7 @@ Notar que si la densidad de granitos, [Suma_i h[i]/N] es muy baja, la actividad 
 
 using namespace std;
 
-typedef double REAL;
-typedef array<int,N> Manna_Array; // fixed-sized array (recien me entero de que esto existe en STL...)
+typedef array<int,N> Manna_Array; // fixed-sized array
 
 
 // CONDICION INICIAL ---------------------------------------------------------------
@@ -33,14 +32,15 @@ typedef array<int,N> Manna_Array; // fixed-sized array (recien me entero de que 
 Para generar una condicion inicial suficientemente uniforme con una densidad
 lo mas aproximada (exacta cuando N->infinito) al numero real DENSITY, podemos hacer asi:
 */
-void inicializacion(Manna_Array &h)
+static void inicializacion(Manna_Array &h)
 {
 	for(int i = 0; i < N; ++i) {
 		h[i] = (int)((i+1)*DENSITY)-(int)(i*DENSITY);
 	}
 }
 
-void imprimir_array(Manna_Array &h)
+#ifdef DEBUG
+static void imprimir_array(const Manna_Array &h)
 {
 	int nrogranitos=0;
 	int nrogranitos_activos=0;
@@ -57,6 +57,7 @@ void imprimir_array(Manna_Array &h)
 	cout << "La densidad obtenida es " << nrogranitos*1.0/N;
 	cout << ", mientras que la deseada era " << DENSITY << "\n\n";
 }
+#endif
 
 
 // CONDICION INICIAL ---------------------------------------------------------------
@@ -65,7 +66,7 @@ El problema con la condicion inicial de arriba es que es estable, no tiene sitio
 y por tanto no evolucionara. Hay que desestabilizarla de alguna forma.
 Una forma es agarrar cada granito, y tirarlo a su izquierda o derecha aleatoriamente...
 */
-void desestabilizacion_inicial(Manna_Array &h)
+static void desestabilizacion_inicial(Manna_Array &h)
 {
 	vector<int> index_a_incrementar;
 	for (int i = 0; i < N; ++i){
@@ -86,7 +87,7 @@ void desestabilizacion_inicial(Manna_Array &h)
 }
 
 // DESCARGA DE ACTIVOS Y UPDATE --------------------------------------------------------
-unsigned int descargar(Manna_Array &h, Manna_Array &dh)
+static unsigned int descargar(Manna_Array &h, Manna_Array &dh)
 {
 	dh.fill(0);
 	
@@ -134,7 +135,7 @@ int main(){
 	imprimir_array(h);
 	#endif
 
-	cout << "evolucion de de la pila de arena..."; cout.flush();
+	cout << "evolucion de la pila de arena..."; cout.flush();
 
 	ofstream activity_out("activity.dat");
 	int activity;
